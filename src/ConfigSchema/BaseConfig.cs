@@ -16,7 +16,7 @@ namespace TheGuin2
 	{
 		public DefaultConfigDefault()
 		{
-			DefaultDir = "{}";
+			DefaultDir = "{\n}";
 		}
 	}
 

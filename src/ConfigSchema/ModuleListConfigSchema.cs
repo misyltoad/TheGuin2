@@ -16,7 +16,7 @@ namespace TheGuin2
 	{
 		public ModuleConfigDefault()
 		{
-			DefaultDir = "{}";
+			DefaultDir = "{\n'Modules': ['core']\n}";
 		}
 	}
 
