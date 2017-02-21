@@ -39,28 +39,17 @@ namespace TheGuin2
 				channel.SendMessage(String.Format("You aren't my master, {0}!", user.GetNickname()));
 				return;
 			}
-				
+			
 			if (args[0].ToLower() == "list")
 			{
 				var printString = "Hello, " + user.GetNickname() + "!\nYour available modules are:";
 				string[] modules = Globals.GetModuleRegistry().GetAvailableModules();
 				
-				foreach(var moduleName in modules)
+				foreach (var moduleName in modules)
 				{
-					printString += "\n -" + moduleName;
-					
-					foreach(var enabledModule in server.GetModuleNames())
-					{
-						if (enabledModule == moduleName)
-							printString += " ✅";
-					}
-					
-					if (printString[printString.Length - 1] != '✅')
-						printString += " 🚫";
-					
-					if (moduleName == "core")
-						printString += " - Required";
+					printString += String.Format("\n - {0} {1}{2}", server.GetModuleNames().Contains(moduleName) ? "✅" : "🚫", moduleName, moduleName == "core" ? " [Required]" : "");
 				}
+				
 				channel.SendMessage(printString);
 				return;
 			}
