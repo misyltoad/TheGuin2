@@ -55,6 +55,7 @@ namespace TheGuin2
 				var roleConfig = DefaultRoleConfig.Get(server);
 				roleConfig.DefaultRole = role.GetId();
 				DefaultRoleConfig.Set(roleConfig, server);
+				channel.SendMessage("The default role is now " + role.GetName() + ".");
 				
 				return;
 			}
@@ -62,6 +63,7 @@ namespace TheGuin2
 			try
 			{
 				File.Delete(StaticConfig.Paths.ConfigPath + "/" + server.GetConfigDir() + "/defaultroleconfig.json");
+				channel.SendMessage("The default role is now @everyone.");
 			}
 			catch{}
         }

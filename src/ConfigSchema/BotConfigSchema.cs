@@ -11,15 +11,15 @@ namespace TheGuin2
 		public string CommandPrefix { get; set; }
 	}
 
-    public class ModuleConfigDefault : ConfigDefault
+    public class BotConfigDefault : ConfigDefault
     {
-        public ModuleConfigDefault()
+        public BotConfigDefault()
         {
             DefaultDir = "{\n'CommandPrefix': '!'\n}";
         }
     }
 
-    public class BotConfig : BaseConfig<BotConfigSchema, ModuleConfigDefault>
+    public class BotConfig : BaseConfig<BotConfigSchema, BotConfigDefault>
 	{
 		
 	}

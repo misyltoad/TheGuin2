@@ -255,3 +255,7 @@ build/data/config
 *.exe
 *.exe.config
 App.config
+packages
+*.dll
+*.dll.config
+*.xml
