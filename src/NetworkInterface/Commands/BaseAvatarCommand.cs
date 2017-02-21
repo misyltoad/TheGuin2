@@ -9,23 +9,29 @@ using ImageProcessor;
 
 namespace TheGuin2.Commands
 {
-    public abstract class BaseImageCommand : BaseCommand
+    public abstract class BaseAvatarCommand : BaseCommand
     {
-        public BaseImageCommand(CmdData data) : base(data)
+        public BaseAvatarCommand(CmdData data) : base(data)
         { }
 
         public override void Execute()
         {
+            BaseUser user = null;
+
+            if (argsString != "")
+                user = server.FindUser(argsString);
+
+            if (user == null)
+                return;
+
             try
             {
-                string imageUrl = args[0];
-                var webClient = new System.Net.WebClient();
-                byte[] imageBytes = webClient.DownloadData(imageUrl);
+                Bitmap bitmap = user.GetAvatar();
 
                 try
                 {
                     ImageFactory imageFactory = new ImageFactory(true, true);
-                    imageFactory.Load(imageBytes);
+                    imageFactory.Load(bitmap);
 
                     Bitmap returnBitmap = null;
 
@@ -41,12 +47,12 @@ namespace TheGuin2.Commands
 
                     try
                     {
-						try
-						{
-							Directory.CreateDirectory(StaticConfig.Paths.TempPath);
-						}
-						catch
-						{ }
+                        try
+                        {
+                            Directory.CreateDirectory(StaticConfig.Paths.TempPath);
+                        }
+                        catch
+                        { }
 
                         string fileId = StaticConfig.Paths.TempPath + System.Guid.NewGuid().ToString() + ".png";
                         returnBitmap.Save(fileId, System.Drawing.Imaging.ImageFormat.Png);
@@ -54,16 +60,18 @@ namespace TheGuin2.Commands
                         try
                         {
                             channel.SendFile(fileId);
-                        } catch
+                        }
+                        catch
                         {
                             channel.SendMessage("Couldn't attach file.");
                         }
-						try
-						{
-							File.Delete(fileId);
-						}
-						catch { }
-                    } catch
+                        try
+                        {
+                            File.Delete(fileId);
+                        }
+                        catch { }
+                    }
+                    catch
                     {
                         channel.SendMessage("Internal error.");
                     }

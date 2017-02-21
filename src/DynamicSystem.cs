@@ -96,6 +96,7 @@ namespace TheGuin2
                 MetadataReference.CreateFromFile(typeof(Enumerable).Assembly.Location),
                 MetadataReference.CreateFromFile(typeof(System.Drawing.Image).Assembly.Location),
                 MetadataReference.CreateFromFile(typeof(System.Net.WebClient).Assembly.Location),
+                MetadataReference.CreateFromFile(typeof(ImageProcessor.ImageFactory).Assembly.Location),
                 MetadataReference.CreateFromFile(System.Reflection.Assembly.GetEntryAssembly().Location)
             };
             CSharpCompilation compilation = CSharpCompilation.Create(

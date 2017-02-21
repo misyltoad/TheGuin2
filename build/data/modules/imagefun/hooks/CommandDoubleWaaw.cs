@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
 using System.IO;
+using ImageProcessor;
 
 namespace TheGuin2.Commands
 {
@@ -14,18 +15,21 @@ namespace TheGuin2.Commands
         public DoubleWaawCommand(CmdData data) : base(data)
         { }
 
-        public override void ProcessImage(ref Image image, ref Bitmap bitmap)
+        public override void ProcessImage(ref ImageFactory imageFactory, ref Bitmap returnBitmap)
         {
-            int halfWidth = (int)Math.Floor((float)bitmap.Width / 2.0f);
-            int halfHeight = (int)Math.Floor((float)bitmap.Height / 2.0f);
+			var image = imageFactory.Image;
+			returnBitmap = new Bitmap(image);
+			
+            int halfWidth = (int)Math.Floor((float)returnBitmap.Width / 2.0f);
+            int halfHeight = (int)Math.Floor((float)returnBitmap.Height / 2.0f);
             for (int x = 0; x < halfWidth; x++)
             {
                 for (int y = 0; y < halfHeight; y++)
                 {
-                    Color otherColor = bitmap.GetPixel(x, y);
-                    bitmap.SetPixel(bitmap.Width - 1 - x, bitmap.Height - 1 - y, otherColor);
-                    bitmap.SetPixel(bitmap.Width - 1 - x, y, otherColor);
-                    bitmap.SetPixel(x, bitmap.Height - 1 - y, otherColor);
+                    Color otherColor = returnBitmap.GetPixel(x, y);
+                    returnBitmap.SetPixel(returnBitmap.Width - 1 - x, returnBitmap.Height - 1 - y, otherColor);
+                    returnBitmap.SetPixel(returnBitmap.Width - 1 - x, y, otherColor);
+                    returnBitmap.SetPixel(x, returnBitmap.Height - 1 - y, otherColor);
                 }
             }
         }

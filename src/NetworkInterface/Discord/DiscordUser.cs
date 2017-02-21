@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,6 +20,33 @@ namespace TheGuin2
             if (userInterface.Nickname == null || userInterface.Nickname == "")
                 return userInterface.Name;
             return userInterface.Nickname;
+        }
+
+        public override Bitmap GetAvatar()
+        {
+            try
+            {
+                string imageUrl = userInterface.AvatarUrl;
+                var webClient = new System.Net.WebClient();
+                byte[] imageBytes = webClient.DownloadData(imageUrl);
+
+                try
+                {
+                    Image image = Image.FromStream(new MemoryStream(imageBytes));
+                    Bitmap bitmap = new Bitmap(image);
+                    return bitmap;
+                }
+                catch
+                {
+                    Console.WriteLine("Invaid Avatar Format!");
+                }
+            }
+            catch
+            {
+                Console.WriteLine("Invaid User!");
+            }
+
+            return null;
         }
 
         public override string GetUsername()

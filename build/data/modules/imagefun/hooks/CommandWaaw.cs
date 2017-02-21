@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
 using System.IO;
+using ImageProcessor;
 
 namespace TheGuin2.Commands
 {
@@ -14,15 +15,18 @@ namespace TheGuin2.Commands
         public WaawCommand(CmdData data) : base(data)
         { }
 
-        public override void ProcessImage(ref Image image, ref Bitmap bitmap)
+        public override void ProcessImage(ref ImageFactory imageFactory, ref Bitmap returnBitmap)
         {
-            int halfWidth = (int)Math.Floor((float)bitmap.Width / 2.0f);
+			var image = imageFactory.Image;
+			returnBitmap = new Bitmap(image);
+			
+            int halfWidth = (int)Math.Floor((float)returnBitmap.Width / 2.0f);
             for (int x = 0; x < halfWidth; x++)
             {
-                for (int y = 0; y < bitmap.Height; y++)
+                for (int y = 0; y < returnBitmap.Height; y++)
                 {
-                    Color otherColor = bitmap.GetPixel(x, y);
-                    bitmap.SetPixel(bitmap.Width - 1 - x, y, otherColor);
+                    Color otherColor = returnBitmap.GetPixel(x, y);
+                    returnBitmap.SetPixel(returnBitmap.Width - 1 - x, y, otherColor);
                 }
             }
         }
