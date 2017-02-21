@@ -30,7 +30,7 @@ namespace TheGuin2
 			MakeDir(server);
 
 			if (server != null)
-				Globals.GetConfigSystem().SerialiseToFile<Schema>(newSchema, server.GetConfigDir() + typeof(Schema).Name + ".json");
+				Globals.GetConfigSystem().SerialiseToFile<Schema>(newSchema, server.GetConfigDir() + "/" + typeof(Schema).Name + ".json");
 			else
 				Globals.GetConfigSystem().SerialiseToFile<Schema>(newSchema, typeof(Schema).Name + ".json");
 		}
