@@ -21,6 +21,18 @@ namespace TheGuin2
 
     public class BotConfig : BaseConfig<BotConfigSchema, BotConfigDefault>
 	{
-		
+        public static string CommandPrefix
+        {
+            get
+            {
+                return Get().CommandPrefix;
+            }
+            set
+            {
+                var Config = Get();
+                Config.CommandPrefix = value;
+                Set(Config);
+            }
+        }
 	}
 }

@@ -83,7 +83,7 @@ namespace TheGuin2
                     isPermissionAdmin = true;
             }
 
-            return IsOwner() || userInterface.Id == DiscordConfig.Get().OwnerId || isPermissionAdmin;
+            return IsOwner() || userInterface.Id == DiscordConfig.OwnerId || isPermissionAdmin;
         }
 
 		public override void GiveRole(BaseRole role)
@@ -109,7 +109,7 @@ namespace TheGuin2
 
         public override bool IsBotOwner()
         {
-			return userInterface.Id == DiscordConfig.Get().OwnerId;
+			return userInterface.Id == DiscordConfig.OwnerId;
 		}
 
         public Discord.User userInterface;

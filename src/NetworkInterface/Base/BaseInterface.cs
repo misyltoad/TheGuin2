@@ -13,7 +13,7 @@ namespace TheGuin2
 			try
 			{
 				string messageText = message.GetText();
-				string commandPrefix = BotConfig.Get().CommandPrefix;
+				string commandPrefix = BotConfig.CommandPrefix;
 				if (messageText.Length > commandPrefix.Length)
 				{
 					if (messageText.Substring(0, commandPrefix.Length) == commandPrefix)

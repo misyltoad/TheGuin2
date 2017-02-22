@@ -11,7 +11,7 @@ namespace TheGuin2
         static void Main(string[] args)
         {
 			Task.Run(() => {
-                DiscordWatcher discordWatcher = new DiscordWatcher(DiscordConfig.Get().LoginToken);
+                DiscordWatcher discordWatcher = new DiscordWatcher(DiscordConfig.LoginToken);
                 discordWatcher.StartWatching();
                 });
 

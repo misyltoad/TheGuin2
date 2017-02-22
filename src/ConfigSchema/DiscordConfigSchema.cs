@@ -22,6 +22,32 @@ namespace TheGuin2
 
     public class DiscordConfig : BaseConfig<DiscordConfigSchema, DiscordConfigDefault>
 	{
+        public static ulong OwnerId
+        {
+            get
+            {
+                return Get().OwnerId;
+            }
+            set
+            {
+                var Config = Get();
+                Config.OwnerId = value;
+                Set(Config);
+            }
+        }
 
+        public static string LoginToken
+        {
+            get
+            {
+                return Get().LoginToken;
+            }
+            set
+            {
+                var Config = Get();
+                Config.LoginToken = value;
+                Set(Config);
+            }
+        }
 	}
 }
