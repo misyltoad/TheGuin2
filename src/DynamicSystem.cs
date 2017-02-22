@@ -123,7 +123,6 @@ namespace TheGuin2
                 {
                     ms.Seek(0, SeekOrigin.Begin);
                     Assembly assembly = Assembly.Load(ms.ToArray());
-                    Console.WriteLine("Successfully compiled: " + path);
                     return assembly;
                 }
             }
