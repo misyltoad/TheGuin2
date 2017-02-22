@@ -59,6 +59,11 @@ namespace TheGuin2
             return userInterface.Mention;
         }
 
+        public override string GetHumanTag()
+        {
+            return userInterface.NicknameMention;
+        }
+
         public override void SendMessage(string message)
         {
             userInterface.SendMessage(message);
@@ -104,7 +109,7 @@ namespace TheGuin2
 
         public override string GetDataString()
         {
-            return String.Format("``{0}`` (``{1}``|``{2}``)", GetTag(), GetNickname(), GetUsername());
+            return String.Format("``{0}`` (``{1}``|``{2}``|``{3}``)", GetTag(), GetHumanTag(), GetNickname(), GetUsername());
         }
 
         public override bool IsBotOwner()

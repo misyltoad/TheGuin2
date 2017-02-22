@@ -60,34 +60,55 @@ namespace TheGuin2
         public override BaseUser FindUser(string name)
         {
             var users = serverinterface.Users;
+
+            if (name == null || name == "" || users == null)
+                return null;
+
+            // First pass of literal search tests.
             foreach (var user in users)
             {
-                try
-                {
-                    if ((user.Nickname != null && user.Nickname == name.ToLower()) || (user.Name != null && user.Name.ToLower() == name.ToLower()) || user.Mention == name)
-                        return new DiscordUser(user);
-                }
-                catch { }
+                if (user.Mention != null && name == user.Mention)
+                    return new DiscordUser(user);
+
+                if (user.NicknameMention != null && name == user.Mention)
+                    return new DiscordUser(user);
+
+                if (user.Nickname != null && name == user.Nickname)
+                    return new DiscordUser(user);
+
+                if (user.Name != null && name == user.Name)
+                    return new DiscordUser(user);
             }
 
+            // First pass of lower search tests, removing mentions as this is not possible.
             foreach (var user in users)
             {
-                try
-                {
-                    if (user.Nickname != null && user.Nickname.Length >= name.Length && user.Nickname.Substring(0, name.Length).ToLower() == name.ToLower())
-                        return new DiscordUser(user);
-                } catch { }
+                if (user.Nickname != null && name.ToLower() == user.Nickname.ToLower())
+                    return new DiscordUser(user);
+
+                if (user.Name != null && name.ToLower() == user.Name.ToLower())
+                    return new DiscordUser(user);
             }
 
 
+            // Second pass for literal search test, removing mentions for search
             foreach (var user in users)
             {
-                try
-                {
-                    if (user.Name != null && user.Name.Length >= name.Length && user.Name.Substring(0, name.Length).ToLower() == name.ToLower())
-                        return new DiscordUser(user);
-                }
-                catch { }
+                if (user.Nickname != null && user.Nickname.IndexOf(name) != -1)
+                    return new DiscordUser(user);
+
+                if (user.Name != null && user.Name.IndexOf(name) != -1)
+                    return new DiscordUser(user);
+            }
+
+            // Second pass for lower search test, removing mentions for search
+            foreach (var user in users)
+            {
+                if (user.Nickname != null && user.Nickname.ToLower().IndexOf(name.ToLower()) != -1)
+                    return new DiscordUser(user);
+
+                if (user.Name != null && user.Name.ToLower().IndexOf(name.ToLower()) != -1)
+                    return new DiscordUser(user);
             }
 
             return null;

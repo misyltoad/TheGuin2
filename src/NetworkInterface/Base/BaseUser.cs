@@ -12,6 +12,7 @@ namespace TheGuin2
         public abstract string GetUsername();
         public abstract string GetNickname();
         public abstract string GetTag();
+        public abstract string GetHumanTag();
         public abstract string GetDataString();
         public abstract string GetId();
         public abstract Bitmap GetAvatar();
