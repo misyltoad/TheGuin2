@@ -61,7 +61,7 @@ namespace TheGuin2
 
         public override string GetHumanTag()
         {
-            return userInterface.NicknameMention;
+            return String.Format("@{0}#{1}", GetUsername(), userInterface.Discriminator);
         }
 
         public override void SendMessage(string message)
