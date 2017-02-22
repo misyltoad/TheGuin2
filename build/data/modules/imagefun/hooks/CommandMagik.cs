@@ -19,7 +19,7 @@ namespace TheGuin2.Commands
         public override void ProcessImage(ref ImageFactory imageFactory)
         {
 			var image = imageFactory.Image;
-			var size = new Size(image.Size.Width * 2, image.Size.Height * 2);
+			var size = new Size(image.Size.Width, image.Size.Height);
 			var doubleSize = new Size(size.Width * 2, size.Height * 2);
 			imageFactory.Resize(doubleSize);
 			imageFactory.ContentAwareResize(size);

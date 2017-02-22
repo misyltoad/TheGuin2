@@ -46,7 +46,7 @@ namespace TheGuin2.Commands
 						catch
 						{ }
 
-                        string fileId = StaticConfig.Paths.TempPath + System.Guid.NewGuid().ToString() + imageUrl.Substring(imageUrl.LastIndexOf('.'));
+                        string fileId = StaticConfig.Paths.TempPath + "/" + System.Guid.NewGuid().ToString() + imageUrl.Substring(imageUrl.LastIndexOf('.'));
                         imageFactory.Save(fileId);
 
                         try
@@ -105,7 +105,7 @@ namespace TheGuin2.Commands
                     catch
                     { }
 
-                    string fileId = StaticConfig.Paths.TempPath + System.Guid.NewGuid().ToString() + ".png";
+                    string fileId = StaticConfig.Paths.TempPath + "/" + System.Guid.NewGuid().ToString() + ".png";
                     imageFactory.Save(fileId);
 
                     try

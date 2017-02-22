@@ -25,7 +25,7 @@ namespace TheGuin2
                     DiscordChannel channel = new DiscordChannel(e.Channel);
                     DiscordServer server = new DiscordServer(e.Server);
                     DiscordMessage message = new DiscordMessage(e.Message);
-                    OnMessageRecieved(user, channel, server, message);
+                    Task.Run(() => OnMessageRecieved(user, channel, server, message));
                 }
             };
 
@@ -33,28 +33,28 @@ namespace TheGuin2
             {
                 DiscordUser user = new DiscordUser(e.User);
                 DiscordServer server = new DiscordServer(e.Server);
-                OnUserJoined(user, server);
+                Task.Run(() => OnUserJoined(user, server));
             };
 
             client.UserBanned += (s, e) =>
             {
                 DiscordUser user = new DiscordUser(e.User);
                 DiscordServer server = new DiscordServer(e.Server);
-                OnUserBanned(user, server);
+                Task.Run(() => OnUserBanned(user, server));
             };
 
             client.UserUnbanned += (s, e) =>
             {
                 DiscordUser user = new DiscordUser(e.User);
                 DiscordServer server = new DiscordServer(e.Server);
-                OnUserUnbanned(user, server);
+                Task.Run(() => OnUserUnbanned(user, server));
             };
 
             client.UserLeft += (s, e) =>
             {
                 DiscordUser user = new DiscordUser(e.User);
                 DiscordServer server = new DiscordServer(e.Server);
-                OnUserLeave(user, server);
+                Task.Run(() => OnUserLeave(user, server));
             };
 
             client.ExecuteAndWait(async () =>
