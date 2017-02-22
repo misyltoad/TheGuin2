@@ -78,10 +78,14 @@ namespace TheGuin2.Commands
                 if (argsString != "")
                     user = server.FindUser(argsString);
 
-                if (user == null)
+                if (user == null && (argsString != null && argsString != "" && argsString != " " && argsString != "  "))
                 {
                     channel.SendMessage("Couldn't get user or URL.");
+                    return;
                 }
+
+                if (user == null)
+                    user = this.user;
 
                 ImageFactory imageFactory = new ImageFactory(true, true);
                 imageFactory.Load(user.GetAvatar());

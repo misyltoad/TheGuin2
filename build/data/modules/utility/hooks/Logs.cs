@@ -67,7 +67,7 @@ namespace TheGuin2.Commands
 			if (logChannel == null)
 				return;
 			
-			logChannel.SendMessage(user.GetDataString() + " said: ``" + message.GetText() ); 
+			logChannel.SendMessage(user.GetDataString() + " said: ``" + message.GetText() + "``" ); 
 		}
 	}
 	
