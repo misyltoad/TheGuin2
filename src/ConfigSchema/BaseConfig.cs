@@ -27,39 +27,44 @@ namespace TheGuin2
 	{
 		public static void Set(Schema newSchema, BaseServer server = null)
 		{
-			MakeDir(server);
+            MakeDefault(server);
 
-			if (server != null)
-				Globals.GetConfigSystem().SerialiseToFile<Schema>(newSchema, server.GetConfigDir() + "/" + typeof(Schema).Name + ".json");
-			else
-				Globals.GetConfigSystem().SerialiseToFile<Schema>(newSchema, typeof(Schema).Name + ".json");
+			Globals.GetConfigSystem().SerialiseToFile<Schema>(newSchema, GetRelativePath(server));
 		}
 
         public static void Delete(BaseServer server = null)
         {
+            string path = GetAbsolutePath(server);
+
             try
             {
-                string path = "";
-                if (server != null)
-                    path = StaticConfig.Paths.ConfigPath + "/" + server.GetConfigDir() + "/" + typeof(Schema).Name + ".json";
-                else
-                    path = StaticConfig.Paths.ConfigPath + "/" + typeof(Schema).Name + ".json";
-
-                File.Delete(path);
+                if (File.Exists(path))
+                    File.Delete(path);
             }
-            catch
-            { }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
 
-		private static void MakeDir(BaseServer server = null)
-		{
-			string path = "";
-			if (server != null)
-				path = StaticConfig.Paths.ConfigPath + "/" + server.GetConfigDir() + "/" + typeof(Schema).Name + ".json";
-			else
-				path = StaticConfig.Paths.ConfigPath + "/" + typeof(Schema).Name + ".json";
+        public static string GetRelativePath(BaseServer server = null)
+        {
+            if (server != null)
+                return String.Format("{0}/{1}{2}", server.GetConfigDir(), typeof(Schema).Name, ".json");
+            else
+                return String.Format("{0}{1}", typeof(Schema).Name, ".json");
+        }
 
-			try
+        private static string GetAbsolutePath(BaseServer server = null)
+        {
+            return String.Format("{0}/{1}", StaticConfig.Paths.ConfigPath, GetRelativePath(server));
+        }
+
+		private static void MakeDefault(BaseServer server = null)
+		{
+            string path = GetAbsolutePath(server);
+
+            try
 			{
 				if (!File.Exists(path))
 					File.WriteAllText(path, new DefaultDir().DefaultDir);
@@ -72,12 +77,9 @@ namespace TheGuin2
 
 		public static Schema Get(BaseServer server = null)
 		{
-			MakeDir(server);
+            MakeDefault(server);
 
-			if (server != null)
-				return Globals.GetConfigSystem().DeserialiseFile<Schema>(server.GetConfigDir() + "/" + typeof(Schema).Name + ".json");
-			else
-				return Globals.GetConfigSystem().DeserialiseFile<Schema>(typeof(Schema).Name + ".json");
+	        return Globals.GetConfigSystem().DeserialiseFile<Schema>(GetRelativePath(server));
 		}
 	}
 }
