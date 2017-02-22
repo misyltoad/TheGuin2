@@ -71,6 +71,8 @@ namespace TheGuin2
 		public abstract BaseRole FindRoleByName(string name);
 		public abstract BaseRole FindRoleById(string name);
 
+		public abstract BaseChannel FindChannelByName(string name);
+
 		public List<Type> GetAllValidTypesWithAttribute(Type hook)
 		{
 			try
@@ -128,6 +130,9 @@ namespace TheGuin2
         public abstract string GetName();
         public abstract string GetId();
 
-		public abstract List<BaseUser> GetBans();
+        public abstract void BanUser(BaseUser user);
+        public abstract void KickUser(BaseUser user);
+
+        public abstract List<BaseUser> GetBans();
     }
 }

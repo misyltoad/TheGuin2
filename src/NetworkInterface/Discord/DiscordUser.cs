@@ -88,14 +88,30 @@ namespace TheGuin2
 
 		public override void GiveRole(BaseRole role)
 		{
-			userInterface.AddRoles(((DiscordRole)role).roleInterface);
+            if (role != null)
+			    userInterface.AddRoles(((DiscordRole)role).roleInterface);
 		}
+
+        public override List<BaseRole> GetRoles()
+        {
+            List<BaseRole> roles = new List<BaseRole>();
+
+            foreach (var role in userInterface.Roles)
+                roles.Add(new DiscordRole(role));
+
+            return roles;
+        }
+
+        public override string GetDataString()
+        {
+            return String.Format("``{0}`` (``{1}``|``{2}``)", GetTag(), GetNickname(), GetUsername());
+        }
 
         public override bool IsBotOwner()
         {
 			return userInterface.Id == DiscordConfig.Get().OwnerId;
 		}
 
-        private Discord.User userInterface;
+        public Discord.User userInterface;
     }
 }

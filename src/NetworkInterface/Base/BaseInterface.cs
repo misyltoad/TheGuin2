@@ -44,6 +44,10 @@ namespace TheGuin2
 							}
 						}
 					}
+                    else
+                    {
+                        server.ExecuteHook(typeof(TheGuin2.OnMessage), user, server, channel, message);
+                    }
 				}
 			}
 			catch (Exception e)
@@ -66,17 +70,50 @@ namespace TheGuin2
 
         public void OnUserBanned(BaseUser user, BaseServer server)
         {
-            //server.GetBotChannel().SendMessage("🔨 ***" + user.GetTag() + " has been smited!*** 🔨");
+            try
+            {
+                server.ExecuteHook(typeof(TheGuin2.OnUserBanned), user, server);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
 
         public void OnUserUnbanned(BaseUser user, BaseServer server)
         {
-            //server.GetBotChannel().SendMessage("👼 ***" + user.GetTag() + " has been forgiven!*** 👼");
+            try
+            {
+                server.ExecuteHook(typeof(TheGuin2.OnUserUnbanned), user, server);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+        }
+
+        public void OnUserChange(BaseUser oldUser, BaseUser newUser, BaseServer server)
+        {
+            try
+            {
+                server.ExecuteHook(typeof(TheGuin2.OnUserChange), oldUser, newUser, server);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
 
         public void OnUserLeave(BaseUser user, BaseServer server)
         {
-           // server.GetBotChannel().SendMessage("😢 ***" + user.GetTag() + " has left... Goodbye.*** 😢");
+            try
+            {
+                server.ExecuteHook(typeof(TheGuin2.OnUserLeft), user, server);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
     }
 }

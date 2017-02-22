@@ -29,6 +29,11 @@ namespace TheGuin2
                 }
             };
 
+            client.UserUpdated += (s, e) =>
+            {
+                Task.Run(() => OnUserChange(new DiscordUser(e.Before), new DiscordUser(e.After), new DiscordServer(e.Server)));
+            };
+
             client.UserJoined += (s, e) =>
             {
                 DiscordUser user = new DiscordUser(e.User);

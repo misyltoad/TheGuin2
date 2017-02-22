@@ -117,17 +117,44 @@ namespace TheGuin2
 			return null;
 		}
 
+        public override BaseChannel FindChannelByName(string name)
+        {
+            if (name == null)
+                return null;
 
-		public override BaseRole FindRoleById(string id)
+            foreach (var channel in serverinterface.TextChannels)
+            {
+                if (channel.Name.ToLower() == name.ToLower())
+                    return new DiscordChannel(channel);
+            }
+
+            foreach (var channel in serverinterface.TextChannels)
+            {
+                try
+                {
+                    if (channel.Name.Substring(0, name.Length).ToLower() == name.ToLower())
+                        return new DiscordChannel(channel);
+                }
+                catch { }
+            }
+
+            return null;
+        }
+
+        public override BaseRole FindRoleById(string id)
 		{
 			if (id == null)
 				return null;
 
-			foreach (var role in serverinterface.Roles)
-			{
-				if (role.Id == ulong.Parse(id))
-					return new DiscordRole(role);
-			}
+            try
+            {
+                foreach (var role in serverinterface.Roles)
+                {
+                    if (role.Id == ulong.Parse(id))
+                        return new DiscordRole(role);
+                }
+            }
+            catch { }
 
 			return null;
 		}
@@ -152,6 +179,15 @@ namespace TheGuin2
 
                 bans.Wait();
                 return interfaceBans;
+        }
+
+        public override void BanUser(BaseUser user)
+        {
+            serverinterface.Ban(((DiscordUser)user).userInterface, 1);
+        }
+        public override void KickUser(BaseUser user)
+        {
+            ((DiscordUser)user).userInterface.Kick();
         }
 
         private Discord.Server serverinterface;

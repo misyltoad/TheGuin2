@@ -11,7 +11,7 @@ namespace TheGuin2.Commands
     {
         public WelcomeMessage(BaseUser user, BaseServer server)
 		{
-			server.GetWelcomeChannel().SendMessage("🎉 ***Welcome " + user.GetTag() + " to the server!*** 🎉");
+			server.GetWelcomeChannel().SendMessage("Welcome " + user.GetTag() + " to the server! :slight_smile:");
 		}
     }
 }

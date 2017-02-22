@@ -19,6 +19,26 @@ namespace TheGuin2
     }
 
     [AttributeUsage(AttributeTargets.All)]
+    public class OnMessage : System.Attribute
+    { }
+
+    [AttributeUsage(AttributeTargets.All)]
+    public class OnUserUnbanned : System.Attribute
+    { }
+
+    [AttributeUsage(AttributeTargets.All)]
+    public class OnUserBanned : System.Attribute
+    { }
+
+    [AttributeUsage(AttributeTargets.All)]
+    public class OnUserLeft : System.Attribute
+    { }
+
+    [AttributeUsage(AttributeTargets.All)]
     public class OnUserJoined : System.Attribute
     {}
+
+    [AttributeUsage(AttributeTargets.All)]
+    public class OnUserChange : System.Attribute
+    { }
 }
