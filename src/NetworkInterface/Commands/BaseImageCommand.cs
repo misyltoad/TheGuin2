@@ -27,12 +27,10 @@ namespace TheGuin2.Commands
                     ImageFactory imageFactory = new ImageFactory(true, true);
                     imageFactory.Load(imageBytes);
 
-                    Bitmap returnBitmap = null;
-
                     try
                     {
                         channel.SendMessage("Processing...");
-                        ProcessImage(ref imageFactory, ref returnBitmap);
+                        ProcessImage(ref imageFactory);
                     }
                     catch
                     {
@@ -48,8 +46,8 @@ namespace TheGuin2.Commands
 						catch
 						{ }
 
-                        string fileId = StaticConfig.Paths.TempPath + System.Guid.NewGuid().ToString() + ".png";
-                        returnBitmap.Save(fileId, System.Drawing.Imaging.ImageFormat.Png);
+                        string fileId = StaticConfig.Paths.TempPath + System.Guid.NewGuid().ToString() + imageUrl.Substring(imageUrl.LastIndexOf('.'));
+                        imageFactory.Save(fileId);
 
                         try
                         {
@@ -75,10 +73,62 @@ namespace TheGuin2.Commands
             }
             catch
             {
-                channel.SendMessage("Invaid URL!");
+                BaseUser user = null;
+
+                if (argsString != "")
+                    user = server.FindUser(argsString);
+
+                if (user == null)
+                {
+                    channel.SendMessage("Couldn't get user or URL.");
+                }
+
+                ImageFactory imageFactory = new ImageFactory(true, true);
+                imageFactory.Load(user.GetAvatar());
+
+                try
+                {
+                    channel.SendMessage("Processing...");
+                    ProcessImage(ref imageFactory);
+                }
+                catch
+                {
+                    channel.SendMessage("Error processing image.");
+                }
+
+                try
+                {
+                    try
+                    {
+                        Directory.CreateDirectory(StaticConfig.Paths.TempPath);
+                    }
+                    catch
+                    { }
+
+                    string fileId = StaticConfig.Paths.TempPath + System.Guid.NewGuid().ToString() + ".png";
+                    imageFactory.Save(fileId);
+
+                    try
+                    {
+                        channel.SendFile(fileId);
+                    }
+                    catch
+                    {
+                        channel.SendMessage("Couldn't attach file.");
+                    }
+                    try
+                    {
+                        File.Delete(fileId);
+                    }
+                    catch { }
+                }
+                catch
+                {
+                    channel.SendMessage("Internal error.");
+                }
             }
         }
 
-        public abstract void ProcessImage(ref ImageFactory imageFactory, ref Bitmap returnBitmap);
+        public abstract void ProcessImage(ref ImageFactory imageFactory);
     }
 }

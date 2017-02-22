@@ -97,6 +97,10 @@ namespace TheGuin2
                 MetadataReference.CreateFromFile(typeof(System.Drawing.Image).Assembly.Location),
                 MetadataReference.CreateFromFile(typeof(System.Net.WebClient).Assembly.Location),
                 MetadataReference.CreateFromFile(typeof(ImageProcessor.ImageFactory).Assembly.Location),
+                MetadataReference.CreateFromFile(typeof(ImageProcessor.Imaging.TextLayer).Assembly.Location),
+                MetadataReference.CreateFromFile(typeof(ImageProcessor.Plugins.Effects.Ascii).Assembly.Location),
+                MetadataReference.CreateFromFile(typeof(ImageProcessor.Plugins.Cair.ImageFactoryExtensions).Assembly.Location),
+                MetadataReference.CreateFromFile(typeof(ImageProcessor.Plugins.Cair.Processors.ContentAwareResize).Assembly.Location),
                 MetadataReference.CreateFromFile(System.Reflection.Assembly.GetEntryAssembly().Location)
             };
             CSharpCompilation compilation = CSharpCompilation.Create(

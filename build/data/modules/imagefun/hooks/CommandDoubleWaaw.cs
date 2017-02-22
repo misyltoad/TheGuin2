@@ -15,10 +15,10 @@ namespace TheGuin2.Commands
         public DoubleWaawCommand(CmdData data) : base(data)
         { }
 
-        public override void ProcessImage(ref ImageFactory imageFactory, ref Bitmap returnBitmap)
+        public override void ProcessImage(ref ImageFactory imageFactory)
         {
 			var image = imageFactory.Image;
-			returnBitmap = new Bitmap(image);
+			var returnBitmap = new Bitmap(image);
 			
             int halfWidth = (int)Math.Floor((float)returnBitmap.Width / 2.0f);
             int halfHeight = (int)Math.Floor((float)returnBitmap.Height / 2.0f);
@@ -32,6 +32,9 @@ namespace TheGuin2.Commands
                     returnBitmap.SetPixel(x, returnBitmap.Height - 1 - y, otherColor);
                 }
             }
+			
+			imageFactory.Reset();
+			imageFactory.Load(returnBitmap);
         }
     }
 }

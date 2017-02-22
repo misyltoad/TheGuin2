@@ -10,21 +10,20 @@ using ImageProcessor;
 namespace TheGuin2.Commands
 {
     [OnCommand("hellodarkness", "My old friend...")]
-    class HelloDarknessCommand : BaseAvatarCommand
+    class HelloDarknessCommand : BaseImageCommand
     {
         public HelloDarknessCommand(CmdData data) : base(data)
         { }
 
-        public override void ProcessImage(ref ImageFactory imageFactory, ref Bitmap returnBitmap)
+        public override void ProcessImage(ref ImageFactory imageFactory)
         {
+			imageFactory.Resize(new Size(512, 512));
 			imageFactory.Saturation(-100);
 			imageFactory.Filter(ImageProcessor.Imaging.Filters.Photo.MatrixFilters.Polaroid);
-			imageFactory.GaussianBlur(4);
+			imageFactory.GaussianBlur(15);
 			imageFactory.Vignette();
-			imageFactory.RoundedCorners(12);
+			imageFactory.RoundedCorners(30);
 			imageFactory.Rotate(-5);
-			var image = imageFactory.Image;
-			returnBitmap = new Bitmap(image);
 			channel.SendMessage("My old friend...");
         }
     }

@@ -15,10 +15,10 @@ namespace TheGuin2.Commands
         public VrCommand(CmdData data) : base(data)
         { }
 
-        public override void ProcessImage(ref ImageFactory imageFactory, ref Bitmap returnBitmap)
+        public override void ProcessImage(ref ImageFactory imageFactory)
         {
 			var image = imageFactory.Image;
-			returnBitmap = new Bitmap(image);
+			var returnBitmap = new Bitmap(image);
 			
             int halfWidth = (int)Math.Floor((float)returnBitmap.Width / 2.0f);
             for (int x = 0; x < halfWidth; x++)
@@ -29,6 +29,9 @@ namespace TheGuin2.Commands
                     returnBitmap.SetPixel(x + halfWidth, y, otherColor);
                 }
             }
+			
+			imageFactory.Reset();
+			imageFactory.Load(returnBitmap);
         }
     }
 }

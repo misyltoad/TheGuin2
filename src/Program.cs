@@ -17,7 +17,6 @@ namespace TheGuin2
 
             while (true)
             {
-
             }
         }
     }
