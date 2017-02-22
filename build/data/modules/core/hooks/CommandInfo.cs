@@ -14,7 +14,9 @@ namespace TheGuin2.Commands
 
         public override void Execute()
         {
-            string output = "Info about " + server.GetName() + ":\n";
+            string output = "I am TheGuin! Made by Joshua Ashton\n";
+			output += "Want me on your server? Click here: http://bit.ly/2lsPr8T\n";
+			output += "Info about " + server.GetName() + ":\n";
             output += "Owner: " + server.GetOwner().GetTag() + " (" + server.GetOwner().GetNickname() + ")\n";
             output += "Members: " + server.GetUsers().Count + "\n";
 

@@ -35,6 +35,22 @@ namespace TheGuin2
 				Globals.GetConfigSystem().SerialiseToFile<Schema>(newSchema, typeof(Schema).Name + ".json");
 		}
 
+        public static void Delete(BaseServer server = null)
+        {
+            try
+            {
+                string path = "";
+                if (server != null)
+                    path = StaticConfig.Paths.ConfigPath + "/" + server.GetConfigDir() + "/" + typeof(Schema).Name + ".json";
+                else
+                    path = StaticConfig.Paths.ConfigPath + "/" + typeof(Schema).Name + ".json";
+
+                File.Delete(path);
+            }
+            catch
+            { }
+        }
+
 		private static void MakeDir(BaseServer server = null)
 		{
 			string path = "";

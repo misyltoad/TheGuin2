@@ -62,21 +62,32 @@ namespace TheGuin2
             var users = serverinterface.Users;
             foreach (var user in users)
             {
-                if ((user.Nickname != null && user.Nickname == name.ToLower()) || (user.Name != null && user.Name.ToLower() == name.ToLower()) || user.Mention == name)
-                    return new DiscordUser(user);
+                try
+                {
+                    if ((user.Nickname != null && user.Nickname == name.ToLower()) || (user.Name != null && user.Name.ToLower() == name.ToLower()) || user.Mention == name)
+                        return new DiscordUser(user);
+                }
+                catch { }
             }
 
             foreach (var user in users)
             {
-                if (user.Nickname != null && user.Nickname.Length >= name.Length && user.Nickname.Substring(0, name.Length).ToLower() == name.ToLower())
-                    return new DiscordUser(user);
+                try
+                {
+                    if (user.Nickname != null && user.Nickname.Length >= name.Length && user.Nickname.Substring(0, name.Length).ToLower() == name.ToLower())
+                        return new DiscordUser(user);
+                } catch { }
             }
 
 
             foreach (var user in users)
             {
-                if (user.Name != null && user.Name.Length >= name.Length && user.Name.Substring(0, name.Length).ToLower() == name.ToLower())
-                    return new DiscordUser(user);
+                try
+                {
+                    if (user.Name != null && user.Name.Length >= name.Length && user.Name.Substring(0, name.Length).ToLower() == name.ToLower())
+                        return new DiscordUser(user);
+                }
+                catch { }
             }
 
             return null;
@@ -95,8 +106,12 @@ namespace TheGuin2
 
 			foreach (var role in serverinterface.Roles)
 			{
-				if (role.Name.Substring(0, name.Length).ToLower() == name.ToLower())
-					return new DiscordRole(role);
+                try
+                {
+                    if (role.Name.Substring(0, name.Length).ToLower() == name.ToLower())
+                        return new DiscordRole(role);
+                }
+                catch { }
 			}
 
 			return null;

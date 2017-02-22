@@ -7,37 +7,21 @@ using System.IO;
 
 namespace TheGuin2
 {
-	public class DefaultRoleConfig
+	public class DefaultRoleConfigSchema
 	{
-		public class DefaultRoleConfigSchema
+		public string DefaultRole { get; set; }
+	}
+	
+	public class DefaultConfigDefault : ConfigDefault
+	{
+		public DefaultConfigDefault()
 		{
-			public string DefaultRole { get; set; }
+			DefaultDir = "{\n'DefaultRole': '@everyone'\n}";
 		}
-
-		public static void Set(DefaultRoleConfigSchema newSchema, BaseServer server)
-		{
-			MakeDir(server);
-			Globals.GetConfigSystem().SerialiseToFile<DefaultRoleConfigSchema>(newSchema, server.GetConfigDir() + "/defaultroleconfig.json");
-		}
-
-		private static void MakeDir(BaseServer server)
-		{
-			var path = StaticConfig.Paths.ConfigPath + "/" + server.GetConfigDir() + "/defaultroleconfig.json";
-			try
-			{
-				if (!File.Exists(path))
-					File.WriteAllText(path, "{}");
-			}
-			catch (Exception e)
-			{
-			}
-		}
-
-		public static DefaultRoleConfigSchema Get(BaseServer server)
-		{
-			MakeDir(server);
-			return Globals.GetConfigSystem().DeserialiseFile<DefaultRoleConfigSchema>(server.GetConfigDir() + "/defaultroleconfig.json");
-		}
+	}
+	
+	public class DefaultRoleConfig : BaseConfig<DefaultRoleConfigSchema, DefaultConfigDefault>
+	{
 	}
 	
     [OnCommand("setdefaultrole", "Set the default role for new members on the server!")]
@@ -48,24 +32,40 @@ namespace TheGuin2
 
         public override void Execute()
         {
+			if (!user.IsAdmin())
+			{
+				channel.SendMessage("You cant' do this, " + user.GetNickname() + "...");
+				return;
+			}
+			
 			if (args.Length > 0)
 			{
 				var role = server.FindRoleByName(argsString);
 				
+				if (role == null)
+				{
+					channel.SendMessage("I can't find that role.");
+					return;
+				}
+				
 				var roleConfig = DefaultRoleConfig.Get(server);
-				roleConfig.DefaultRole = role.GetId();
-				DefaultRoleConfig.Set(roleConfig, server);
-				channel.SendMessage("The default role is now " + role.GetName() + ".");
+				
+				if (roleConfig != null)
+				{
+					roleConfig.DefaultRole = role.GetId();
+					DefaultRoleConfig.Set(roleConfig, server);
+					channel.SendMessage("The default role is now " + role.GetName() + ".");
+				}
+				else
+				{
+					channel.SendMessage("Failed to get config.");
+				}
 				
 				return;
 			}
 			
-			try
-			{
-				File.Delete(StaticConfig.Paths.ConfigPath + "/" + server.GetConfigDir() + "/defaultroleconfig.json");
-				channel.SendMessage("The default role is now @everyone.");
-			}
-			catch{}
+			DefaultRoleConfig.Delete(server);
+			channel.SendMessage("The default role is now @everyone.");
         }
     }
 	
