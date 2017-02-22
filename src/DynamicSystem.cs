@@ -54,13 +54,7 @@ namespace TheGuin2
 
         public List<Assembly> GetAssemblies()
         {
-            List<Assembly> assemblyList = new List<Assembly>();
-            foreach (var pair in assemblies)
-            {
-                assemblyList.Add(pair.Value);
-            }
-
-            return assemblyList;
+            return assemblies.Values.ToList();
         }
 
         public void RecompileAll()
